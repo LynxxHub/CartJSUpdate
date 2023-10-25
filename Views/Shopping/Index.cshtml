@@ -1,0 +1,76 @@
+﻿@model IEnumerable<Product>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+</style>
+
+<div class="text-center">
+    <H1>Products</H1>
+    <table class="products-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in Model)
+            {
+                <tr>
+                    <td>@product.Id</td>
+                    <td>@product.Name</td>
+                    <td>@product.Description</td>
+                    <td>@product.Price.ToString("C")</td>
+                    <td width="180px">
+                        <button onclick="addToCart(@product.Id)" class="btn btn-primary">Add to cart</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="text-center">
+    <H1>Cart</H1>
+    <table class="cart-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- This will be dynamically filled by JavaScript -->
+        </tbody>
+    </table>
+</div>
+
+<!-- Add this before your script references -->
+<script>
+    // Create a global variable to store products data
+    window.productsData = @Html.Raw(Json.Serialize(Model));
+</script>
+
+<!-- Reference the cart.js file -->
+<script src="~/js/cart.js"></script>
